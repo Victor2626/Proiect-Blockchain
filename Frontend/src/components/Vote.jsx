@@ -1,27 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import PlatformManagerABI from './contracts/PlatformManager.json';
 
 export default function Vote() {
-  // State pentru organizațiile și voturile lor
-  const [organizations, setOrganizations] = useState([
-    { id: 1, title: 'Organization One', description: 'A humanitarian organization helping people in need.', votes: 15 },
-    { id: 2, title: 'Organization Two', description: 'This organization provides food and shelter to refugees.', votes: 10 },
-    { id: 3, title: 'Organization Three', description: 'An NGO focused on environmental protection.', votes: 8 },
-    
-  ]);
+  const [organizations, setOrganizations] = useState([]);
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [platformManager, setPlatformManager] = useState(null);
 
-  // Functia pentru a gestiona voturile
-  const handleVote = (id) => {
-    setOrganizations((prevState) =>
-      prevState.map((org) =>
-        org.id === id ? { ...org, votes: org.votes + 1 } : org
-      )
-    );
-  };
+  useEffect(() => {
+    const setupBlockchain = async () => {
+      if (window.ethereum) {
+        const newProvider = new ethers.providers.Web3Provider(window.ethereum);
+        await newProvider.send('eth_requestAccounts', []);
+        const newSigner = newProvider.getSigner();
+        const newPlatformManager = new ethers.Contract(
+          'Adresa_Contract_PlatformManager',
+          PlatformManagerABI.abi,
+          newSigner
+        );
+        setProvider(newProvider);
+        setSigner(newSigner);
+        setPlatformManager(newPlatformManager);
 
-  // Functia pentru a gestiona donatiile
-  const handleDonate = (id) => {
-    // Aici poți adăuga logica de integrare cu Ethereum pentru donații
-    console.log(`Donating to organization with ID: ${id}`);
+        // Fetch organizations from the contract
+        const orgCount = await newPlatformManager.getCharityEventCount();
+        let fetchedOrganizations = [];
+        for (let i = 0; i < orgCount; i++) {
+          const org = await newPlatformManager.charityEvents(i);
+          fetchedOrganizations.push({
+            id: i,
+            title: org.name,
+            description: org.description,
+            votes: org.voteCount.toNumber(),
+          });
+        }
+        setOrganizations(fetchedOrganizations);
+      } else {
+        alert('Please install MetaMask!');
+      }
+    };
+    setupBlockchain();
+  }, []);
+
+  const handleVote = async (id) => {
+    if (!platformManager) return;
+    try {
+      const tx = await platformManager.vote(id);
+      await tx.wait();
+      alert('Vote successful!');
+      // Actualizează numărul de voturi local
+      setOrganizations((prevState) =>
+        prevState.map((org) =>
+          org.id === id ? { ...org, votes: org.votes + 1 } : org
+        )
+      );
+    } catch (error) {
+      console.error('Vote failed', error);
+      alert('Vote failed');
+    }
   };
 
   return (
@@ -33,9 +70,6 @@ export default function Vote() {
             <h2>{organization.title}</h2>
             <p>{organization.description}</p>
             <div>
-              <button onClick={() => handleDonate(organization.id)} style={styles.button}>
-                Donate
-              </button>
               <button onClick={() => handleVote(organization.id)} style={styles.button}>
                 Vote
               </button>

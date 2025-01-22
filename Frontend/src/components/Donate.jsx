@@ -1,44 +1,49 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import PlatformManagerABI from './contracts/PlatformManager.json';
 
 export function Donate() {
-  const [donations, setDonations] = useState([
-    { address: '0x123...', amount: 0.5 },
-    { address: '0x456...', amount: 1.0 },
-    { address: '0x789...', amount: 0.3 },
-  ]);
-  const [totalDonated, setTotalDonated] = useState(1.8); // Exemplu de total donat
+  const [totalDonated, setTotalDonated] = useState(0); // Exemplu de total donat
   const [isSectionVisible, setIsSectionVisible] = useState(true); // Starea vizibilității secțiunii
-  const donationsRef = useRef(null); // Referință pentru secțiunea de donații
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [platformManager, setPlatformManager] = useState(null);
 
-  // Setup Intersection Observer
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Setăm vizibilitatea secțiunii
-        setIsSectionVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.5, // Secțiunea trebuie să fie vizibilă pe jumătate pentru a activa logica
-      }
-    );
-
-    if (donationsRef.current) {
-      observer.observe(donationsRef.current);
-    }
-
-    return () => {
-      if (donationsRef.current) {
-        observer.unobserve(donationsRef.current);
+    const setupBlockchain = async () => {
+      if (window.ethereum) {
+        const newProvider = new ethers.providers.Web3Provider(window.ethereum);
+        await newProvider.send('eth_requestAccounts', []);
+        const newSigner = newProvider.getSigner();
+        const newPlatformManager = new ethers.Contract(
+          'Adresa_Contract_PlatformManager',
+          PlatformManagerABI.abi,
+          newSigner
+        );
+        setProvider(newProvider);
+        setSigner(newSigner);
+        setPlatformManager(newPlatformManager);
+      } else {
+        alert('Please install MetaMask!');
       }
     };
+    setupBlockchain();
   }, []);
 
-  function handleDonate() {
-    // Simulare donație (înlocuiește cu logica reală când se integrează cu blockchain-ul)
-    const newDonation = { address: '0xNewAddress...', amount: 0.2 };
-    setDonations([...donations, newDonation]);
-    setTotalDonated(totalDonated + newDonation.amount);
-  }
+  const handleDonate = async () => {
+    if (!platformManager) return;
+
+    const donationAmount = ethers.utils.parseEther('0.1'); // Suma de donat (exemplu)
+    try {
+      const tx = await platformManager.donate({ value: donationAmount });
+      await tx.wait();
+      alert('Donation successful!');
+      setTotalDonated(totalDonated + parseFloat(ethers.utils.formatEther(donationAmount)));
+    } catch (error) {
+      console.error('Donation failed', error);
+      alert('Donation failed');
+    }
+  };
 
   return (
     <div className="donate-container">
@@ -46,24 +51,6 @@ export function Donate() {
       <button onClick={handleDonate}>Donate</button>
       <div style={{ marginTop: '20px' }}>
         <p>Total Donated: {totalDonated} ETH</p>
-      </div>
-
-      <h2>Previous Donations</h2>
-      <div
-        ref={donationsRef}
-        style={{
-          transition: 'all 0.3s ease',
-          height: isSectionVisible ? 'auto' : '500px', // Mărește înălțimea când secțiunea iese din vizibilitate
-          overflow: 'hidden',
-        }}
-      >
-        <ul>
-          {donations.map((donation, index) => (
-            <li key={index}>
-              {donation.address} donated {donation.amount} ETH
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
