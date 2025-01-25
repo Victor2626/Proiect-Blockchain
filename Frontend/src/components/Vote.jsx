@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import PlatformManagerABI from './contracts/PlatformManager.json';
+import PlatformManagerABI from '../abi/PlatformManager.json';
 
 export default function Vote() {
   const [organizations, setOrganizations] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import PlatformManagerABI from './contracts/PlatformManager.json';
+import PlatformManagerABI from '../abi/PlatformManager.json';
 
 export function Donate() {
   const [totalDonated, setTotalDonated] = useState(0); // Exemplu de total donat
@@ -12,11 +12,12 @@ export function Donate() {
   useEffect(() => {
     const setupBlockchain = async () => {
       if (window.ethereum) {
+        console.log(window.ethereum);
         const newProvider = new ethers.providers.Web3Provider(window.ethereum);
         await newProvider.send('eth_requestAccounts', []);
         const newSigner = newProvider.getSigner();
         const newPlatformManager = new ethers.Contract(
-          'Adresa_Contract_PlatformManager',
+          '0x5FbDB2315678afecb367f032d93F642f64180aa3',
           PlatformManagerABI.abi,
           newSigner
         );
