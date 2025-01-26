@@ -12,10 +12,10 @@ export function Donate() {
   useEffect(() => {
     const setupBlockchain = async () => {
       if (window.ethereum) {
-        console.log(window.ethereum);
         const newProvider = new ethers.providers.Web3Provider(window.ethereum);
         await newProvider.send('eth_requestAccounts', []);
         const newSigner = newProvider.getSigner();
+        console.log(newSigner);
         const newPlatformManager = new ethers.Contract(
           '0x5FbDB2315678afecb367f032d93F642f64180aa3',
           PlatformManagerABI.abi,

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Donate } from './components/Donate';
 import Vote from './components/Vote'; // Importăm componenta Vote
@@ -26,11 +26,11 @@ function App() {
         </nav>
 
         {/* Define Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/vote" element={<Vote />} /> {/* Ruta pentru Vote */}
-        </Routes>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/donate" component={Donate} />
+          <Route path="/vote" component={Vote} /> {/* Ruta pentru Vote */}
+        </Switch>
       </div>
     </Router>
   );
