@@ -3,6 +3,49 @@
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       "abi": [
         {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "donor",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "DonationReceived",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "charityEvent",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "FundsDistributed",
+          "type": "event"
+        },
+        {
           "inputs": [
             {
               "internalType": "uint256",
@@ -32,16 +75,25 @@
               "internalType": "string",
               "name": "_name",
               "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_durationDays",
-              "type": "uint256"
             }
           ],
           "name": "createCharityEvent",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "distributeFunds",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "donate",
+          "outputs": [],
+          "stateMutability": "payable",
           "type": "function"
         },
         {
@@ -68,247 +120,6 @@
           ],
           "stateMutability": "view",
           "type": "function"
-        }
-      ]
-    },
-    "CharityEvent": {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "abi": [
-        {
-          "inputs": [
-            {
-              "internalType": "string",
-              "name": "_name",
-              "type": "string"
-            },
-            {
-              "internalType": "address",
-              "name": "_manager",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "_durationDays",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "donor",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "amount",
-              "type": "uint256"
-            }
-          ],
-          "name": "DonationReceived",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "organization",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "amount",
-              "type": "uint256"
-            }
-          ],
-          "name": "FundsDistributed",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "voter",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "organizationId",
-              "type": "uint256"
-            }
-          ],
-          "name": "VoteReceived",
-          "type": "event"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "string",
-              "name": "_orgName",
-              "type": "string"
-            },
-            {
-              "internalType": "address payable",
-              "name": "_orgAddress",
-              "type": "address"
-            }
-          ],
-          "name": "addOrganization",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "deadline",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "distributeFunds",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "donate",
-          "outputs": [],
-          "stateMutability": "payable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "_organizationId",
-              "type": "uint256"
-            }
-          ],
-          "name": "donateDirect",
-          "outputs": [],
-          "stateMutability": "payable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "name": "donations",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "donors",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getDonors",
-          "outputs": [
-            {
-              "internalType": "address[]",
-              "name": "",
-              "type": "address[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getOrganizations",
-          "outputs": [
-            {
-              "components": [
-                {
-                  "internalType": "address payable",
-                  "name": "orgAddress",
-                  "type": "address"
-                },
-                {
-                  "internalType": "string",
-                  "name": "orgName",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "votes",
-                  "type": "uint256"
-                }
-              ],
-              "internalType": "struct CharityEvent.Organization[]",
-              "name": "",
-              "type": "tuple[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "name": "hasVoted",
-          "outputs": [
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
         },
         {
           "inputs": [],
@@ -325,49 +136,7 @@
         },
         {
           "inputs": [],
-          "name": "name",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "organizations",
-          "outputs": [
-            {
-              "internalType": "address payable",
-              "name": "orgAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "string",
-              "name": "orgName",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "votes",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "totalDonations",
+          "name": "totalCollected",
           "outputs": [
             {
               "internalType": "uint256",
@@ -376,22 +145,331 @@
             }
           ],
           "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "organizationIndex",
-              "type": "uint256"
-            }
-          ],
-          "name": "vote",
-          "outputs": [],
-          "stateMutability": "nonpayable",
           "type": "function"
         }
       ]
+    },
+    "CharityEvent": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+              },
+              {
+                "internalType": "address",
+                "name": "_manager",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_durationDays",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": true,
+                "internalType": "address",
+                "name": "donor",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "DonationReceived",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": true,
+                "internalType": "address",
+                "name": "organization",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "FundsDistributed",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": true,
+                "internalType": "address",
+                "name": "voter",
+                "type": "address"
+              },
+              {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "organizationId",
+                "type": "uint256"
+              }
+            ],
+            "name": "VoteReceived",
+            "type": "event"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "string",
+                "name": "_orgName",
+                "type": "string"
+              },
+              {
+                "internalType": "address payable",
+                "name": "_orgAddress",
+                "type": "address"
+              }
+            ],
+            "name": "addOrganization",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "deadline",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "distributeFunds",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "donate",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_organizationId",
+                "type": "uint256"
+              }
+            ],
+            "name": "donateDirect",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "name": "donations",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "name": "donors",
+            "outputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "getDonors",
+            "outputs": [
+              {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "getOrganizations",
+            "outputs": [
+              {
+                "components": [
+                  {
+                    "internalType": "address payable",
+                    "name": "orgAddress",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "orgName",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "votes",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct CharityEvent.Organization[]",
+                "name": "",
+                "type": "tuple[]"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "name": "hasVoted",
+            "outputs": [
+              {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "manager",
+            "outputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+              {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "name": "organizations",
+            "outputs": [
+              {
+                "internalType": "address payable",
+                "name": "orgAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "orgName",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "votes",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "totalDonations",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "organizationIndex",
+                "type": "uint256"
+              }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ]
     }
 }
   
