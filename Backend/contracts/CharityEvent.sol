@@ -47,8 +47,6 @@ contract CharityEvent {
         emit DonationReceived(msg.sender, msg.value);
     }
 
-
-
     function vote(uint256 organizationIndex) public {
         require(block.timestamp < deadline, "Voting period has ended");
         require(donations[msg.sender] > 0, "Only donors can vote");
